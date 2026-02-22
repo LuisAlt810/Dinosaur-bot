@@ -1,10 +1,11 @@
 const http = require('http');
+const path = require('path');
 const { spawn } = require('child_process');
 
 // ===============================
-// 🌐 SIMPLE WEB SERVER (PORT 5000)
+// 🌐 WEB SERVER (RENDER SAFE)
 // ===============================
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -16,12 +17,14 @@ server.listen(PORT, () => {
 });
 
 // ===============================
-// 🤖 START DISCORD BOT (index.js)
+// 🤖 START DISCORD BOT
 // ===============================
 function startBot() {
-  console.log('🚀 Starting index.js...');
+  const botPath = path.join(__dirname, 'index.js');
 
-  const bot = spawn('node', ['index.js'], {
+  console.log(`🚀 Starting bot from: ${botPath}`);
+
+  const bot = spawn(process.execPath, [botPath], {
     stdio: 'inherit'
   });
 
