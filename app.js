@@ -1,40 +1,37 @@
 const http = require('http');
+const fs = require('fs');
 const path = require('path');
-const { spawn } = require('child_process');
 
 // ===============================
-// 🌐 WEB SERVER (RENDER SAFE)
+// 🌐 WEB SERVER (Render Safe)
 // ===============================
 const PORT = process.env.PORT || 5000;
 
-const server = http.createServer((req, res) => {
+http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Bot + Web server is running!\n');
-});
-
-server.listen(PORT, () => {
+  res.end('Bot + Web server running!\n');
+}).listen(PORT, () => {
   console.log(`🌍 Web server running on port ${PORT}`);
 });
 
 // ===============================
-// 🤖 START DISCORD BOT
+// 🤖 START BOT (AUTO-DETECT FILE)
 // ===============================
-function startBot() {
-  const botPath = path.join(__dirname, 'index.js');
+const possibleFiles = ['index.js', 'bot.js', 'main.js'];
 
-  console.log(`🚀 Starting bot from: ${botPath}`);
+let botFile = null;
 
-  const bot = spawn(process.execPath, [botPath], {
-    stdio: 'inherit'
-  });
-
-  bot.on('close', (code) => {
-    console.log(`⚠️ Bot exited with code ${code}`);
-  });
-
-  bot.on('error', (err) => {
-    console.error('❌ Failed to start bot:', err);
-  });
+for (const file of possibleFiles) {
+  if (fs.existsSync(path.join(__dirname, file))) {
+    botFile = file;
+    break;
+  }
 }
 
-startBot();
+if (!botFile) {
+  console.error('❌ No bot file found! Expected one of:', possibleFiles);
+  process.exit(1);
+}
+
+console.log(`🚀 Starting bot file: ${botFile}`);
+require(`./${botFile}`);
