@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2dd4bf" />
+  <title>Dino Bot | Features, Privacy, Terms & Rules</title>
+  <style>
+    :root {
+      --bg: #07111c;
+      --bg2: #0b1726;
+      --card: rgba(13, 23, 38, 0.82);
+      --card2: rgba(9, 18, 30, 0.94);
+      --text: #e6eef8;
+      --muted: #9bb0c8;
+      --line: rgba(255,255,255,0.08);
+      --brand: #2dd4bf;
+      --brand2: #60a5fa;
+      --warn: #f59e0b;
+      --danger: #fb7185;
+      --ok: #34d399;
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(1000px 500px at 15% 10%, rgba(45,212,191,.18), transparent 50%),
+        radial-gradient(800px 420px at 85% 15%, rgba(96,165,250,.14), transparent 45%),
+        linear-gradient(180deg, var(--bg) 0%, #050b13 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(5, 11, 19, 0.62);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color: #00111a;
+      box-shadow: 0 10px 25px rgba(45,212,191,.18);
+      font-size: 22px;
+    }
+
+    .navlinks {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navlinks a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--muted);
+      transition: .2s ease;
+    }
+
+    .navlinks a:hover { background: rgba(255,255,255,.05); color: var(--text); }
+
+    .hero {
+      padding: 62px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(15,26,42,.88), rgba(8,14,24,.92));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -25% auto;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(45,212,191,.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(45,212,191,.1);
+      color: #8df2e6;
+      border: 1px solid rgba(45,212,191,.18);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 5vw, 4.8rem);
+      line-height: .96;
+      margin: 18px 0 14px;
+      letter-spacing: -0.04em;
+    }
+
+    .lead {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 62ch;
+      margin: 0 0 24px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color: #04131a;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.08);
+      color: var(--text);
+    }
+
+    .hero-side {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--line);
+    }
+
+    .stat .num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .stat .label { color: var(--muted); line-height: 1.5; }
+
+    section {
+      padding: 24px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+      letter-spacing: -.03em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 60ch;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .features {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .card {
+      padding: 20px;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 30px rgba(0,0,0,.18);
+    }
+
+    .feature-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: rgba(45,212,191,.12);
+      border: 1px solid rgba(45,212,191,.16);
+      color: #8df2e6;
+      margin-bottom: 14px;
+      font-size: 22px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .command-box {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .commands {
+      padding: 8px;
+    }
+
+    .command {
+      padding: 14px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .command code {
+      background: rgba(45,212,191,.1);
+      color: #8df2e6;
+      border: 1px solid rgba(45,212,191,.14);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .command span { color: var(--muted); }
+
+    .policy-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .tab-btn {
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .tab-btn.active {
+      color: #04131a;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      border-color: transparent;
+    }
+
+    .policy-panel {
+      display: none;
+      padding: 22px;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .policy-panel.active { display: block; }
+    .policy-panel h3 { color: var(--text); margin-top: 0; }
+    .policy-panel ul { margin: 10px 0 0 18px; }
+    .policy-panel li { margin: 8px 0; }
+
+    .rules-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .rule-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: rgba(96,165,250,.12);
+      border: 1px solid rgba(96,165,250,.18);
+      color: #9cc7ff;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .notice {
+      border-left: 4px solid var(--warn);
+      background: rgba(245,158,11,.08);
+      padding: 16px 18px;
+      border-radius: 16px;
+      color: #f7d48a;
+      line-height: 1.6;
+    }
+
+    .footer {
+      margin: 30px 0 24px;
+      padding: 20px 0 8px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mini-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .mini-links a {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .features,
+      .rules-grid,
+      .command-box { grid-template-columns: 1fr; }
+      .section-head { align-items: start; flex-direction: column; }
+      .nav { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding-top: 36px; }
+      .hero-copy { padding: 24px; }
+      .card, .hero-side, .policy-panel { padding: 18px; }
+      .navlinks { gap: 6px; }
+      .navlinks a { padding: 8px 10px; }
+      .btn { width: 100%; }
+      .actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">🦖</div>
+        <div>
+          <div style="font-size:1.05rem;">Dino Bot</div>
+          <div style="color:var(--muted); font-size:.88rem; font-weight:600;">Features • Privacy • Terms • Rules</div>
+        </div>
+      </div>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#commands">Commands</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#terms">Terms</a>
+        <a href="#rules">Rules</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="panel hero-copy">
+          <span class="eyebrow">⚡ Smart moderation • fun tools • server support</span>
+          <h1>Everything your Dino Bot needs in one strong landing page.</h1>
+          <p class="lead">
+            A clean, modern homepage for your Discord bot with a full feature list, command overview,
+            privacy policy, terms of service, and rules section. Ready for a support server, invite page,
+            or public bot showcase.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#features">Explore features</a>
+            <a class="btn btn-secondary" href="#privacy">Read policies</a>
+          </div>
+        </div>
+
+        <aside class="panel hero-side" aria-label="Highlights">
+          <div class="stat">
+            <div class="num">24/7</div>
+            <div class="label">Always-on help for your community.</div>
+          </div>
+          <div class="stat">
+            <div class="num">1 Page</div>
+            <div class="label">All the important info in one place.</div>
+          </div>
+          <div class="stat">
+            <div class="num">Customizable</div>
+            <div class="label">Swap links, colors, text, and commands anytime.</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Dino Bot features</h2>
+            <p>Show your users what the bot can do, from moderation and utility to fun and community tools.</p>
+          </div>
+        </div>
+        <div class="grid features">
+          <article class="card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Moderation</h3>
+            <p>Kick, ban, timeout, warn, purge messages, and keep your server clean with simple commands.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">🎉</div>
+            <h3>Fun</h3>
+            <p>Games, random responses, memes, trivia, and playful commands to keep your server active.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">🔧</div>
+            <h3>Utility</h3>
+            <p>Server info, user info, ping, avatar, embeds, reminders, and everyday helper commands.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">📊</div>
+            <h3>Logging</h3>
+            <p>Track joins, leaves, edits, deletes, and moderation actions for better server management.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">🔒</div>
+            <h3>Safety</h3>
+            <p>Anti-spam, auto-mod tools, and clear rule enforcement to protect your community.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">🎵</div>
+            <h3>Music Ready</h3>
+            <p>Add music commands later if your bot supports audio, playlists, queue handling, and volume control.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">🌍</div>
+            <h3>Multi-purpose</h3>
+            <p>Perfect for personal servers, community servers, gaming groups, and support communities.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">⚙️</div>
+            <h3>Easy Setup</h3>
+            <p>Simple configuration and clear documentation make it easier for members to start using it fast.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="commands">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Command overview</h2>
+            <p>Use this section to give people a quick look at what Dino Bot can do. Replace these examples with your real commands anytime.</p>
+          </div>
+        </div>
+        <div class="panel command-box">
+          <div class="card commands">
+            <div class="command"><code>/help</code> <span>Shows the full command list</span></div>
+            <div class="command"><code>/ping</code> <span>Checks bot latency</span></div>
+            <div class="command"><code>/userinfo</code> <span>Displays member details</span></div>
+            <div class="command"><code>/serverinfo</code> <span>Shows server stats</span></div>
+            <div class="command"><code>/warn</code> <span>Warns a user</span></div>
+          </div>
+          <div class="card commands">
+            <div class="command"><code>/ban</code> <span>Removes a member from the server</span></div>
+            <div class="command"><code>/kick</code> <span>Kicks a member</span></div>
+            <div class="command"><code>/timeout</code> <span>Temporarily mutes a user</span></div>
+            <div class="command"><code>/purge</code> <span>Deletes messages in bulk</span></div>
+            <div class="command"><code>/rules</code> <span>Shows the server rules</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Privacy policy</h2>
+            <p>Keep this page transparent so users know what data is collected, why it is used, and how it is handled.</p>
+          </div>
+        </div>
+
+        <div class="policy-tabs" role="tablist" aria-label="Policies">
+          <button class="tab-btn active" data-tab="privacy-panel">Privacy</button>
+          <button class="tab-btn" data-tab="terms-panel">Terms</button>
+          <button class="tab-btn" data-tab="rules-panel">Rules</button>
+        </div>
+
+        <div class="panel policy-panel active" id="privacy-panel">
+          <h3>Dino Bot Privacy Policy</h3>
+          <p>
+            Dino Bot may process limited Discord data required to operate properly, such as user IDs,
+            server IDs, message content used for moderation commands, and command interaction details.
+          </p>
+          <ul>
+            <li>Data is used only to provide bot features, moderation, logging, and support.</li>
+            <li>Data should not be sold or shared for advertising purposes.</li>
+            <li>Temporary data may be stored for logs, cooldowns, or anti-spam protection.</li>
+            <li>Server admins may request removal of stored bot data where applicable.</li>
+            <li>Users should not submit sensitive personal information through bot commands.</li>
+          </ul>
+        </div>
+
+        <div class="panel policy-panel" id="terms-panel">
+          <h3>Dino Bot Terms of Service</h3>
+          <p>
+            By using Dino Bot, users agree to follow Discord’s rules, community standards, and the server’s own policies.
+            Abuse, harassment, exploit attempts, or malicious use of the bot may result in restriction or removal.
+          </p>
+          <ul>
+            <li>The bot is provided “as is” without guarantee of uninterrupted service.</li>
+            <li>Features may change, be removed, or be added at any time.</li>
+            <li>Owners may limit access to certain commands or features.</li>
+            <li>Misuse of moderation or utility commands can lead to penalties.</li>
+            <li>Use of the bot implies acceptance of these terms.</li>
+          </ul>
+        </div>
+
+        <div class="panel policy-panel" id="rules-panel">
+          <h3>Server rules</h3>
+          <p>
+            These rules help keep the community safe, organized, and fun for everyone.
+          </p>
+          <ul>
+            <li>Be respectful to everyone.</li>
+            <li>No spam, flooding, or unnecessary pings.</li>
+            <li>Keep content in the correct channels.</li>
+            <li>No harassment, hate speech, or abusive behavior.</li>
+            <li>No NSFW content unless a channel is explicitly allowed for it.</li>
+            <li>Do not impersonate staff or misuse bot commands.</li>
+            <li>Follow Discord’s Terms of Service and Community Guidelines.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Highlighted rules</h2>
+            <p>These cards make the rules section look more polished and easier to scan on mobile and desktop.</p>
+          </div>
+        </div>
+        <div class="grid rules-grid">
+          <article class="card">
+            <div class="rule-num">1</div>
+            <h3>Respect everyone</h3>
+            <p>Be kind and keep conversations friendly. No insults, threats, or harassment.</p>
+          </article>
+          <article class="card">
+            <div class="rule-num">2</div>
+            <h3>Keep chat clean</h3>
+            <p>No spam, scam links, excessive caps, or repeated messages that distract others.</p>
+          </article>
+          <article class="card">
+            <div class="rule-num">3</div>
+            <h3>Use the right channels</h3>
+            <p>Post in the correct place so the server stays organized and easy to follow.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="notice">
+          Replace the placeholder command names, policy wording, and support links with your real Dino Bot details before publishing.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <strong style="color:var(--text);">Dino Bot</strong><br />
+        <span>Features • Privacy Policy • Terms • Rules</span>
+      </div>
+      <div class="mini-links">
+        <a href="#features">Features</a>
+        <a href="#privacy">Policies</a>
+        <a href="#rules">Rules</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const buttons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.policy-panel');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => b.classList.remove('active'));
+        panels.forEach((p) => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
